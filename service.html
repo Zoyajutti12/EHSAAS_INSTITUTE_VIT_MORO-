@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Apply for Career</title>
+
+<style>
+body{
+  background:#f4f6f9;
+  font-family:Arial;
+}
+.career-section{
+  max-width:450px;
+  margin:30px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 15px 30px palevioletred;
+  transition:0.4s ease;
+}
+.career-section h2{
+  text-align:center;
+  color:#1d2671;
+  margin-bottom:20px;
+}
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
+  border:1px solid #ccc;
+  border-radius:10px;
+}
+/* Form fields default style */
+.career-section input,
+.career-section select,
+.career-section textarea {
+    border: 2px solid #ccc;  /* default border */
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* On click / focus */
+.career-section input:focus,
+.career-section select:focus,
+.career-section textarea:focus {
+    border-color: #c33764; /* pink border on click */
+    box-shadow: 0 0 8px rgba(195, 55, 100, 0.2);
+}
+textarea{resize:none}
+button{
+  width:100%;
+  padding:10px;
+  background:linear-gradient(135deg,#1d2671,#c33764);
+  border:none;
+  border-radius:30px;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+.success-msg{
+  display:none;
+  text-align:center;
+  font-size:18px;
+  color:#1d2671;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body style="background: transparent;">
+
+<div class="career-section">
+  <h2>Apply for Career</h2>
+
+  <form id="careerForm">
+    <input id="name" placeholder="Full Name" required>
+    <input id="email" type="email" placeholder="Email" required>
+    <input placeholder="Phone" required>
+
+    <select required>
+      <option value="">Select Position</option>
+      <option>Instructor</option>
+      <option>Administrator</option>
+      <option>Support Staff</option>
+    </select>
+
+    <textarea rows="4" placeholder="Experience" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="success-msg" id="successMsg">
+    ✅ Application submitted successfully!
+  </div>
+</div>
+
+<script>
+/* login check */
+if(localStorage.getItem("isLoggedIn") !== "true"){
+  alert("Please login first");
+  window.location.href="index.html";
+}
+
+/* autofill */
+document.getElementById("name").value = localStorage.getItem("userName") || "";
+document.getElementById("email").value = localStorage.getItem("userEmail") || "";
+
+/* submit → hide form + auto close modal */
+document.getElementById("careerForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  // hide form
+  this.style.display = "none";
+
+  // show success message
+  document.getElementById("successMsg").style.display = "block";
+
+  // 2 second delay → parent modal close
+  setTimeout(() => {
+    if (window.parent) {
+      window.parent.postMessage({ action: 'closeModal' }, '*');
+    }
+  }, 2000);
+});
+</script>
+
+</body>
+</html>

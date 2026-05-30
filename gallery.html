@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Ehsaas Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f6f9; color: #333; }
+
+        /* Header Style (Matching Main Page) */
+        .gallery-header {
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .gallery-header h1 { font-size: 2.5rem; letter-spacing: 2px; }
+        .gallery-header p { opacity: 0.9; margin-top: 5px; }
+
+        /* Gallery Grid */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: 0.4s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover { transform: translateY(-10px); }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(29, 38, 113, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .gallery-item:hover .overlay { opacity: 1; }
+        .overlay i { color: white; font-size: 30px; }
+
+        /* Lightbox (Zoom View) */
+        #lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+        }
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 10px; border: 3px solid white; }
+        .close-lightbox {
+            position: absolute; top: 20px; right: 30px;
+            color: white; font-size: 40px; cursor: pointer;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #1d2671;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: #c33764; }
+    </style>
+</head>
+<body>
+
+<header class="gallery-header">
+    <h1>Institute Gallery</h1>
+    <p>Visual tour of Ehsaas Institute</p>
+</header>
+
+<div class="container">
+    
+    <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000')">
+            <img src="pic1.jpg" alt="Campus">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000')">
+            <img src="15033540-8418-4d83-b183-59a4d9909cf6.jpg" alt="Lab">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1000')">
+            <img src="5f96fe06-3d0d-4ac0-88de-8ab079bb52d8.jpg" alt="Classroom">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000')">
+            <img src="6d4fc2b4-9537-4205-9e4a-05aff1f7180f.jpg" alt="Students">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="a73503ab-e754-43d2-a744-dc709dbcc8b2.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000')">
+            <img src="7c9fbcff-1913-4464-9a67-bb2738869d18.jpg" alt="Workshop">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="e65cbba8-197a-4829-ba89-043f77932210.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="bc4f619f-54fb-4ae2-b0b4-7f7199bfc402.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="84d558d9-bc4c-46e1-915b-845ef684ebce.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="88a3a38e-245e-4e44-8899-3efde0964532.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="586be114-e426-4327-a587-7cd9dff77339.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1498243639359-2cee966050c3?q=80&w=1000')">
+            <img src="89906b3c-cdd3-4e6a-bb6f-025fa8dd664b.jpg" alt="Library">
+            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
+<script>
+    function openLightbox(src) {
+        document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox").style.display = "flex";
+    }
+
+    function closeLightbox() {
+        document.getElementById("lightbox").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

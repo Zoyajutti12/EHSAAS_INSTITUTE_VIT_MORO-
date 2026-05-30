@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ehsaas Institute | Official</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background: #f4f6f9; color: #333; overflow-x: hidden; }
+body.modal-open { overflow: hidden; }
+
+/* HEADER & NAV */
+header { background: linear-gradient(135deg, #1d2671, #c33764); color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 5%;   /* pehle 12px tha */
+  min-height: 80px;   /* NEW */
+}
+.left-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;   /* logo gayab nahi hoga */
+}
+.hamburger { font-size: 22px; cursor: pointer; }
+.logo {
+  display: flex;
+  align-items: center;
+  perspective: 800px;   /* 3D depth */
+}
+
+.logo img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+
+  /* 3D + shadow */
+  filter:
+    drop-shadow(0 3px 6px rgba(0,0,0,0.25))
+    drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+  
+  transform: translateZ(20px);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+.logo img:hover {
+  transform: translateZ(35px) scale(1.03);
+  filter:
+    drop-shadow(0 6px 10px rgba(0,0,0,0.35))
+    drop-shadow(0 12px 20px rgba(0,0,0,0.25));
+}
+.title { font-size: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 30px; }
+
+/* SEARCH & VOICE BOX */
+.search-box { position: relative; display: flex; align-items: center; }
+.search-box input { padding: 8px 65px 8px 15px; border: none; border-radius: 20px; outline: none; width: 250px; font-size: 14px; }
+.search-icons { position: absolute; right: 10px; display: flex; gap: 10px; align-items: center; }
+.search-icons i { cursor: pointer; transition: 0.3s; }
+.fa-search { color: #c33764; }
+.fa-microphone { color: #1d2671; }
+.fa-microphone.recording { color: #f80759; animation: pulse 1s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+.search-results-dropdown { 
+    position: absolute; top: 45px; left: 0; width: 100%; background: #fff; 
+    border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    display: none; z-index: 1001; max-height: 250px; overflow-y: auto; 
+}
+.search-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; color: #333; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+
+nav { background: rgba(0,0,0,0.1); padding: 8px; display: flex; justify-content: center; }
+nav ul { list-style: none; display: flex; gap: 25px; }
+nav ul li a { color: #fff; text-decoration: none; font-weight: 500; cursor: pointer; font-size: 14px; }
+
+/* HERO SECTION */
+.hero { position: relative; height: 75vh; display: flex; align-items: center; justify-content: center; color: white; text-align: center; overflow: hidden; }
+.hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); object-fit: cover; }
+.hero-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 0; }
+.hero-content { position: relative; z-index: 1; padding: 0 20px; }
+.hero-content h1 { font-size: 3.5rem; font-weight: 600; margin-bottom: 10px; }
+
+/* MODAL SYSTEM */
+#modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
+.modal-box { background:linear-gradient(135deg, #1d2671, #c33764); width: 100%; max-width: 420px; border-radius: 20px; position: relative; overflow: hidden; animation: scaleUp 0.3s ease; }
+@keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.modal-box.service-large {
+    width: 95% !important;
+    max-width: 1400px !important;
+    height: 90vh !important;
+    background: linear-gradient(135deg, #1d2671, #c33764);
+    overflow: hidden;
+}
+.modal-box.service-large iframe {
+    background: transparent;
+}
+#modalContent { width: 100%; height: 100%; }
+iframe { width: 100%; height: 100%; border: none; display: block; }
+
+.close-modal { position: absolute; top: 12px; right: 12px; font-size: 24px; cursor: pointer; color: #fff; background: rgba(0,0,0,0.3); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3000; transition: 0.3s; }
+.close-modal:hover { background: #c33764; }
+
+/* PROFESSIONAL FORMS STYLE */
+.form-ui { padding: 40px 30px; text-align: center; }
+.form-ui h2 { margin-bottom: 25px; font-weight: 600; color: white; }
+.form-group { position: relative; margin-bottom: 20px; text-align: left; }
+.form-group i { position: absolute; left: 15px; top: 42px; color: white; transition: 0.3s; }
+.form-group label { font-size: 13px; font-weight: 600; color: white; margin-left: 5px; }
+.form-group input { width: 100%; padding: 12px 15px 12px 42px; border: 2px solid #eee; border-radius: 12px; outline: none; margin-top: 5px; transition: 0.3s; font-size: 14px; }
+.form-group input:focus { border-color: #c33764; box-shadow: 0 0 8px white; }
+.form-group input:focus + i { color: white; }
+
+/* PROFILE CARD STYLE */
+.profile-card { padding: 40px 25px; text-align: center; }
+.avatar-circle { width: 80px; height: 80px; background:  linear-gradient(135deg, #1d2671, #c33764); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #1d2671; font-size: 40px; border: 3px solid #1d2671; }
+.profile-row { text-align: left; background: #f8f9fa; padding: 12px 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; border-left: 4px solid #c33764; }
+
+/* DRAWER (Scrollable) */
+#drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 9998; }
+#drawer { 
+    position: fixed; 
+    top: 0; 
+    left: -320px; 
+    width: 280px; 
+    height: 100%; 
+    background: #fff; 
+    transition: 0.4s; 
+    z-index: 9999; 
+    overflow-y: auto; 
+}
+#drawer.active { left: 0; }
+.drawer-header { background: linear-gradient(135deg, #1d2671, #c33764); color: white; padding: 40px 20px; text-align: center; position: relative; }
+.cut-btn { 
+    position: absolute; 
+    top: 10px; 
+    right: 15px; 
+    font-size: 22px; 
+    cursor: pointer; 
+    color: rgba(255,255,255,0.8); 
+    z-index: 10000;
+}
+.cut-btn:hover { color: #fff; }
+.drawer-content a { display: flex; align-items: center; gap: 12px; padding: 14px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; font-size: 14px; }
+
+/* BUTTONS */
+.theme-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; margin-top: 10px; transition: 0.3s; font-size: 15px; }
+.btn-login { background: linear-gradient(135deg, #1d2671, #4b6cb7); }
+.btn-signup { background: linear-gradient(135deg, #c33764, #f80759); }
+.theme-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+/* FOOTER */
+footer {
+  background: linear-gradient(135deg, #1d2671, #c33764);
+  color: #fff;
+  padding: 4px 5px;
+  text-align: center;
+}
+@media (max-width: 992px) {
+  .top-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .title {
+    font-size: 16px;
+  }
+
+  .logo img {
+    height: 32px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+}
+.modal-box.service-large {
+  overflow: hidden;
+}
+
+iframe {
+  max-width: 100%;
+  max-height: 100%;
+}
+@media (max-width: 600px) {
+  .logo img {
+    height: 36px;
+  }
+
+  .title {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 600px) {
+  .logo img {
+    height: 36px;
+    transform: none; /* mobile pe simple */
+  }
+}
+.social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; }
+.social-links a { width: 30px; height: 30px; background: rgba(255,255,255,0.1); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; font-size: 20px; transition: 0.4s; }
+.social-links a:hover { background: #c33764; transform: translateY(-5px); }
+.footer-text { font-size: 13px; opacity: 0.6; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div id="drawer-overlay" onclick="closeDrawer()"></div>
+
+<header>
+  <div class="top-header">
+    <div class="left-box">
+      <i class="fas fa-bars hamburger" onclick="openDrawer()"></i>
+      <div class="logo">
+        <img src="ehsas.jpg" alt="Logo">
+      </div>
+      <div class="title">EHSAAS INSTITUTE</div>
+    </div>
+    <div class="search-box">
+        <input type="text" id="mainSearch" placeholder="Search or speak..." onkeyup="liveSearch()">
+        <div class="search-icons">
+            <i class="fas fa-microphone" id="voiceBtn" onclick="startVoice()"></i>
+            <i class="fas fa-search"></i>
+        </div>
+        <div id="searchResults" class="search-results-dropdown"></div>
+    </div>
+  </div>
+  
+</header>
+
+<div id="drawer">
+  <div class="drawer-header">
+    <i class="fas fa-times cut-btn" onclick="closeDrawer()"></i>
+    <i class="fas fa-user-circle" style="font-size: 50px; margin-bottom:10px"></i>
+    <h3 id="drName">Welcome, Guest</h3>
+  </div>
+  <div class="drawer-content">
+    <a href="Ehsaas Institute.html"><i class="fas fa-home"></i> Home</a>
+    <a onclick="openService()" style="cursor:pointer;"><i class="fas fa-laptop-code"></i> Services</a>
+    <a onclick="openGallery()" style="cursor:pointer;"><i class="fas fa-images"></i> Gallery</a>
+    <a onclick="openAbout()" style="cursor:pointer;"><i class="fas fa-info-circle"></i> About Us</a>
+    <div id="accLink" style="display:none"><a onclick="openAccount()" style="cursor:pointer;"><i class="fas fa-id-card"></i> Profile Info</a></div>
+    
+    <div style="padding:20px;">
+        <div id="guestSide">
+            <button class="theme-btn btn-login" onclick="openLogin()">Login</button>
+            <button class="theme-btn btn-signup" onclick="openSignup()">Signup</button>
+        </div>
+        <div id="userSide" style="display:none">
+            <button class="theme-btn" style="background:#333" onclick="logout()">Logout</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+    <video autoplay muted loop><source src="video.mp4" type="video/mp4"></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Learn Without Limits</h1>
+        <p>Advance your career with Ehsaas Institute</p>
+    </div>
+</section>
+
+<div id="modal">
+  <div class="modal-box" id="modalBox">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="social-links">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+  </div>
+  <div class="footer-text">© 2026 EHSAAS INSTITUTE. ALL RIGHTS RESERVED.</div>
+</footer>
+<script>
+const modal = document.getElementById("modal");
+const modalBox = document.getElementById("modalBox");
+const modalContent = document.getElementById("modalContent");
+
+function updateUI(){
+    const logged = localStorage.getItem("isLoggedIn") === "true";
+    document.getElementById("guestSide").style.display = logged ? "none" : "block";
+    document.getElementById("userSide").style.display = logged ? "block" : "none";
+    document.getElementById("accLink").style.display = logged ? "block" : "none";
+    document.getElementById("drName").innerText = logged ? "Hi, " + localStorage.getItem("userName") : "Welcome, Guest";
+}
+updateUI();
+
+// Live search
+function liveSearch() {
+    const input = document.getElementById('mainSearch').value.toLowerCase();
+    const res = document.getElementById('searchResults');
+    const items = [
+        { t: "Our Services", fn: "openService", i: "fa-laptop-code" },
+        { t: "Profile Info", fn: "openAccount", i: "fa-id-card" },
+        { t: "Login", fn: "openLogin", i: "fa-sign-in-alt" }
+    ];
+    if (input.length > 0) {
+        res.style.display = "block";
+        res.innerHTML = items
+            .filter(it => it.t.toLowerCase().includes(input))
+            .map(it => `
+            <div class="search-item" onclick="
+    ${it.fn}();
+    document.getElementById('mainSearch').value = '';
+    document.getElementById('searchResults').style.display='none';
+">
+                    <i class="fas ${it.i}"></i> ${it.t}
+                </div>
+            `).join('');
+    } else {
+        res.style.display = "none";
+    }
+}
+
+
+function openDrawer(){ document.getElementById("drawer").classList.add("active"); document.getElementById("drawer-overlay").style.display="block"; }
+function closeDrawer(){ document.getElementById("drawer").classList.remove("active"); document.getElementById("drawer-overlay").style.display="none"; }
+
+function openService(){
+    closeDrawer();
+    if(localStorage.getItem("isLoggedIn") !== "true") { openLogin(); return; }
+    modal.style.display = "flex";
+    modalBox.className = "modal-box service-large";
+    document.body.classList.add("modal-open");
+    modalContent.innerHTML = `<iframe src="service.html" style="width:100%;height:100%;border:none;"></iframe>`;
+}
+
+function openGallery(){
+    closeDrawer();
+    modal.style.display = "flex";
+    modalBox.className = "modal-box service-large";
+    document.body.classList.add("modal-open");
+    modalContent.innerHTML = `<iframe src="Gallery.html" style="width:100%;height:100%;border:none;"></iframe>`;
+}
+
+function openAbout(){
+    closeDrawer();
+    modal.style.display = "flex";
+    modalBox.className = "modal-box service-large";
+    document.body.classList.add("modal-open");
+    modalContent.innerHTML = `<iframe src="about.html" style="width:100%;height:100%;border:none;"></iframe>`;
+}
+
+function openAccount(){
+    closeDrawer();
+    modal.style.display = "flex";
+    modalBox.className = "modal-box";
+    const name = localStorage.getItem("userName") || "Student";
+    const email = localStorage.getItem("userEmail") || "N/A";
+    modalContent.innerHTML = `
+        <div class="profile-card">
+            <div class="avatar-circle"><i class="fas fa-user"></i></div>
+            <h2 style="color:#1d2671; margin-bottom:20px;">Student Profile</h2>
+            <div class="profile-row"><i class="fas fa-id-badge"></i> <span><strong>Name:</strong> ${name}</span></div>
+            <div class="profile-row"><i class="fas fa-envelope"></i> <span><strong>Email:</strong> ${email}</span></div>
+            <button onclick="closeModal()" class="theme-btn btn-login">Back to Home</button>
+        </div>`;
+}
+
+function openLogin(){
+    closeDrawer(); modal.style.display = "flex"; modalBox.className = "modal-box";
+    modalContent.innerHTML = `
+        <div class="form-ui">
+            <h2>Welcome Back</h2>
+            <div class="form-group"><label>Email Address</label><input type="email" id="lEmail" placeholder="Enter your email"><i class="fas fa-envelope"></i></div>
+            <div class="form-group"><label>Password</label><input type="password" id="lPass" placeholder="Enter password"><i class="fas fa-lock"></i></div>
+            <button onclick="login()" class="theme-btn btn-login">Login Now</button>
+            <p style="margin-top:15px; color: white; font-size:13px;">Don't have an account? <span onclick="openSignup()" 
+               style="color: skyblue; cursor:pointer; font-weight:600;">Sign Up</span></p>
+        </div>`;
+}
+
+function openSignup(){
+    closeDrawer(); modal.style.display = "flex"; modalBox.className = "modal-box";
+    modalContent.innerHTML = `
+        <div class="form-ui">
+            <h2 style="color: white">Create Account</h2>
+            <div class="form-group"><label>Full Name</label><input type="text" id="rName" placeholder="Enter full name"><i class="fas fa-user"></i></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="rEmail" placeholder="Enter email"><i class="fas fa-envelope"></i></div>
+            <div class="form-group"><label>Password</label><input type="password" id="rPass" placeholder="Create password"><i class="fas fa-key"></i></div>
+            <button onclick="register()" class="theme-btn btn-signup">Register Now</button>
+        </div>`;
+}
+
+// Updated Functions with Validation
+function login(){
+    let email = document.getElementById("lEmail").value;
+    let pass = document.getElementById("lPass").value;
+    
+    if(email === "" || pass === "") {
+        alert("Please fill all fields!");
+        return;
+    }
+    
+    localStorage.setItem("isLoggedIn", "true"); 
+    localStorage.setItem("userName", "Student"); 
+    localStorage.setItem("userEmail", email); 
+    updateUI(); 
+    closeModal(); 
+}
+
+function register(){ 
+    let name = document.getElementById("rName").value;
+    let email = document.getElementById("rEmail").value;
+    let pass = document.getElementById("rPass").value;
+
+    if(name === "" || email === "" || pass === "") {
+        alert("Please fill all fields!");
+        return;
+    }
+
+    localStorage.setItem("isLoggedIn", "true"); 
+    localStorage.setItem("userName", name); 
+    localStorage.setItem("userEmail", email); 
+    updateUI(); 
+    closeModal(); 
+}
+
+function logout(){ localStorage.clear(); updateUI(); closeDrawer(); }
+function closeModal(){ modal.style.display = "none"; modalContent.innerHTML = ""; document.body.classList.remove("modal-open"); }
+window.onclick = (e) => { if(e.target == modal) closeModal(); }
+
+// 🔹 NEW: Listen iframe messages for auto-close
+window.addEventListener('message', function(event){
+    if(event.data && event.data.action === 'closeModal'){
+        closeModal(); // iframe se aate hi modal close
+    }
+});
+</script>
+</body>
+</html>

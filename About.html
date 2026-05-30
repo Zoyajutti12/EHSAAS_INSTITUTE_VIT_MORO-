@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Ehsaas Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #fff; color: #333; line-height: 1.6; }
+
+        /* Header Section */
+        .about-header {
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .about-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+        /* Main Content */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .section { margin-bottom: 50px; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+        .section-reverse { flex-direction: row-reverse; }
+        
+        .content { flex: 1; min-width: 300px; }
+        .content h2 { color: #1d2671; margin-bottom: 15px; font-size: 1.8rem; border-left: 5px solid #c33764; padding-left: 15px; }
+        
+        .image-box { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .image-box img { width: 100%; display: block; }
+
+        /* Stats Section */
+        .stats {
+            background: #f4f6f9;
+            padding: 50px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+            border-radius: 20px;
+        }
+        .stat-item i { font-size: 40px; color: #c33764; margin-bottom: 10px; }
+        .stat-item h3 { font-size: 2rem; color: #1d2671; }
+        .stat-item p { font-weight: 600; opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            .about-header h1 { font-size: 2rem; }
+            .section { text-align: center; }
+            .content h2 { border-left: none; border-bottom: 3px solid #c33764; padding-left: 0; display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="about-header">
+    <h1>About Ehsaas Institute</h1>
+    <p>Empowering Minds, Shaping Futures</p>
+</header>
+
+<div class="container">
+    <div class="section">
+        <div class="content">
+            <h2>Our Story</h2>
+            <p>Ehsaas Institute was founded with a vision to provide high-quality education and technical skills to students. We believe that education is the most powerful weapon which you can use to change the world. Our journey started with a few students, and now we are a community of thousands.</p>
+        </div>
+        <div class="image-box">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000" alt="Students">
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>5000+</h3>
+            <p>Students Graduated</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>50+</h3>
+            <p>Expert Teachers</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-book"></i>
+            <h3>25+</h3>
+            <p>Professional Courses</p>
+        </div>
+    </div>
+
+    <div class="section section-reverse" style="margin-top: 50px;">
+        <div class="content">
+            <h2>Our Mission</h2>
+            <p>To bridge the gap between traditional education and modern industry demands by providing hands-on training and career-focused learning. We aim to make every student self-reliant and professional in their chosen field.</p>
+        </div>
+        <div class="image-box">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000" alt="Mission">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
